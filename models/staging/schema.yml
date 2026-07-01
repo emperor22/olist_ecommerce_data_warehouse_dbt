@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: stg_olist_orders
+    description: Cleaned order lifecycle data. Grain is one row per order.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: customer_id
+        tests: [not_null]
+      - name: order_status
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
+
+  - name: stg_olist_order_items
+    description: Cleaned order item data. Grain is one row per order item.
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: order_item_id
+        tests: [not_null]
+      - name: product_id
+        tests: [not_null]
+      - name: seller_id
+        tests: [not_null]
+
+  - name: stg_olist_order_payments
+    description: Cleaned order payment transactions. Grain is one row per payment sequence.
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: payment_sequential
+        tests: [not_null]
+      - name: payment_type
+        tests: [not_null]
+
+  - name: stg_olist_order_reviews
+    description: Cleaned customer review data.
+    columns:
+      - name: review_id
+        tests: [not_null]
+      - name: order_id
+        tests: [not_null]
+
+  - name: stg_olist_customers
+    description: Cleaned customer data. Grain is one row per customer_id.
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+      - name: customer_unique_id
+        tests: [not_null]
+
+  - name: stg_olist_products
+    description: Cleaned product dimension source.
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+
+  - name: stg_olist_sellers
+    description: Cleaned seller dimension source.
+    columns:
+      - name: seller_id
+        tests: [not_null, unique]

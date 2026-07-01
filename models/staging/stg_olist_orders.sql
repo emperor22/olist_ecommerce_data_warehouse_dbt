@@ -1,0 +1,10 @@
+select
+    cast(order_id as varchar) as order_id,
+    cast(customer_id as varchar) as customer_id,
+    cast(order_status as varchar) as order_status,
+    try_cast(order_purchase_timestamp as timestamp) as purchased_at,
+    try_cast(order_approved_at as timestamp) as approved_at,
+    try_cast(order_delivered_carrier_date as timestamp) as delivered_to_carrier_at,
+    try_cast(order_delivered_customer_date as timestamp) as delivered_to_customer_at,
+    try_cast(order_estimated_delivery_date as timestamp) as estimated_delivery_at
+from {{ source('raw_olist', 'orders') }}

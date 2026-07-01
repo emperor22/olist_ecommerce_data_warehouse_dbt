@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: int_order_items_enriched
+    description: Order items enriched with product category and seller location.
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: order_item_id
+        tests: [not_null]
+
+  - name: int_order_revenue
+    description: Order-level revenue metrics aggregated from order items.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+
+  - name: int_order_payments
+    description: Order-level payment metrics.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+
+  - name: int_order_reviews
+    description: Order-level review metrics.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+
+  - name: int_order_delivery
+    description: Order-level delivery timing and lateness metrics.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+
+  - name: int_customer_first_order
+    description: Customer-level first and latest order timestamps.
+    columns:
+      - name: customer_unique_id
+        tests: [not_null, unique]

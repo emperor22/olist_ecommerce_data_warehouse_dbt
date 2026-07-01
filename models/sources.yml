@@ -1,0 +1,35 @@
+version: 2
+
+sources:
+  - name: raw_olist
+    database: olist
+    schema: raw
+    description: Raw Olist Brazilian e-commerce CSVs loaded into DuckDB.
+    tables:
+      - name: customers
+        identifier: raw_olist_customers
+        description: Customer IDs and location fields.
+      - name: geolocation
+        identifier: raw_olist_geolocation
+        description: Zip-code geolocation data.
+      - name: order_items
+        identifier: raw_olist_order_items
+        description: One row per product item within an order.
+      - name: order_payments
+        identifier: raw_olist_order_payments
+        description: Payment transactions for orders.
+      - name: order_reviews
+        identifier: raw_olist_order_reviews
+        description: Customer review scores and review timestamps.
+      - name: orders
+        identifier: raw_olist_orders
+        description: Order lifecycle timestamps and order status.
+      - name: products
+        identifier: raw_olist_products
+        description: Product category and product attributes.
+      - name: sellers
+        identifier: raw_olist_sellers
+        description: Seller IDs and locations.
+      - name: product_category_translation
+        identifier: raw_product_category_translation
+        description: Translation from Portuguese product category to English.
