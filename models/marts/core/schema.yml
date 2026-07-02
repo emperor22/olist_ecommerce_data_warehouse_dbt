@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: Customer dimension. Grain is one row per customer_id.
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+      - name: customer_unique_id
+        tests: [not_null]
+
+  - name: dim_products
+    description: Product dimension. Grain is one row per product_id.
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+
+  - name: dim_sellers
+    description: Seller dimension. Grain is one row per seller_id.
+    columns:
+      - name: seller_id
+        tests: [not_null, unique]
+
+  - name: dim_date
+    description: Date dimension generated from order purchase dates.
+    columns:
+      - name: date_day
+        tests: [not_null, unique]
+
+  - name: fct_orders
+    description: Order fact table. Grain is one row per order.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+
+  - name: fct_order_items
+    description: Order item fact table. Grain is one row per order item.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_orders')
+                field: order_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
+      - name: seller_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sellers')
+                field: seller_id
+
+  - name: fct_payments
+    description: Payment fact table. Grain is one row per order payment sequence.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_orders')
+                field: order_id
+
+  - name: fct_reviews
+    description: Review fact table. Grain is one row per review.
+    columns:
+      - name: review_id
+        tests: [not_null]
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_orders')
+                field: order_id

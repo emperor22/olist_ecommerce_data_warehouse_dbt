@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: mart_daily_revenue
+    description: Daily revenue and order metrics for executive reporting. Grain is one row per order_date.
+    columns:
+      - name: order_date
+        tests: [not_null, unique]
+
+  - name: mart_seller_performance
+    description: Seller-level sales, delivery, and review performance.
+    columns:
+      - name: seller_id
+        tests: [not_null, unique]
+
+  - name: mart_delivery_performance
+    description: Monthly delivery performance by customer state.
+    columns:
+      - name: order_month
+        tests: [not_null]
+
+  - name: mart_product_category_performance
+    description: Product-category-level revenue, review, and delivery metrics.
+    columns:
+      - name: product_category_name_english
+        tests: [not_null, unique]
+
+  - name: mart_customer_repeat_purchase
+    description: Customer-level repeat purchase behavior.
+    columns:
+      - name: customer_unique_id
+        tests: [not_null, unique]
